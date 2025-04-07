@@ -1,0 +1,107 @@
+/* ===== Base Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #c0d7ee;
+  color: #1f073d;
+  line-height: 1.6;
+  padding: 2rem;
+}
+
+/* ===== Layout Container ===== */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* ===== Header ===== */
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+/* ===== Course Cards ===== */
+.course-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  color: #d2a439;
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  color: #736625;
+}
+
+/* ===== Buttons ===== */
+.button {
+  background-color: #4a90e2;
+  color: rgb(207, 228, 251);
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #357ab8;
+}
+
+.link-button {
+  background: none;
+  color: #4a90e2;
+  border: none;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+/* ===== Feedback Form ===== */
+.textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid #85afb8;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.feedback-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
