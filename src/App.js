@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { db } from "./firebase";
+import { collection, addDoc } from "firebase/firestore";
+import "./App.css";
 
 const sampleCourses = [
   {
     id: 1,
-    title: "Zero Trust + Data Risk Insightss",
-    description: "This webinar explores Zero Standing Privileges (ZSP) as a key to Zero Trust, sharing expert insights and practical steps to align mindset and infrastructure for continuous verification and least privilege."
+    title: "AWS Zero Trust Webinar",
+    description: "Explore ZSP and infrastructure alignment with Zero Trust."
   },
   {
     id: 2,
@@ -13,53 +16,63 @@ const sampleCourses = [
   },
   {
     id: 3,
-    title: "Data Privacy in the Cloud",
+    title: "Cloud Data Privacy",
     description: "Explore strategies for protecting data in cloud systems."
   }
 ];
 
-export default function VirtualTrainingApp() {
+export default function App() {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [feedback, setFeedback] = useState("");
 
+  const handleSubmitFeedback = async () => {
+    try {
+      await addDoc(collection(db, "feedbacks"), {
+        courseTitle: selectedCourse.title,
+        feedbackText: feedback,
+        timestamp: new Date().toISOString()
+      });
+      alert("✅ Feedback submitted and stored in Firebase!");
+      setFeedback("");
+      setSelectedCourse(null);
+    } catch (error) {
+      console.error("Error saving feedback:", error);
+      alert("❌ Could not submit feedback. Check console.");
+    }
+  };
+
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: 'auto' }}>
-      <h1 style={{ fontSize: '2rem', textAlign: 'center' }}>Photon Dynamics Training Modules</h1>
+    <div className="container">
+      <h1>Virtual Training Platform (Firebase Connected)</h1>
       {!selectedCourse ? (
-        <div style={{ display: 'grid', gap: '1rem' }}>
+        <div>
           {sampleCourses.map(course => (
-            <div key={course.id} onClick={() => setSelectedCourse(course)} style={{
-              border: '1px solid #ccc',
-              borderRadius: '8px',
-              padding: '1rem',
-              backgroundColor: '#fff',
-              cursor: 'pointer',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
-            }}>
+            <div
+              key={course.id}
+              className="card"
+              onClick={() => setSelectedCourse(course)}
+            >
               <h2>{course.title}</h2>
               <p>{course.description}</p>
             </div>
           ))}
         </div>
       ) : (
-        <div>
-          <button onClick={() => setSelectedCourse(null)} style={{ marginBottom: '1rem' }}>← Back to Courses</button>
-          <div style={{
-            border: '1px solid #ccc',
-            borderRadius: '8px',
-            padding: '1rem',
-            backgroundColor: '#fff'
-          }}>
-            <h2>{selectedCourse.title}</h2>
-            <p>{selectedCourse.description}</p>
-            <textarea
-              placeholder="Leave your feedback here..."
-              value={feedback}
-              onChange={(e) => setFeedback(e.target.value)}
-              style={{ width: '100%', height: '100px', margin: '1rem 0' }}
-            />
-            <button onClick={() => alert("Feedback submitted! Thank you.")}>Submit Feedback</button>
-          </div>
+        <div className="card">
+          <button onClick={() => setSelectedCourse(null)} className="button" style={{ marginBottom: '1rem' }}>
+            ← Back to Courses
+          </button>
+          <h2>{selectedCourse.title}</h2>
+          <p>{selectedCourse.description}</p>
+          <textarea
+            className="textarea"
+            placeholder="Leave your feedback here..."
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+          ></textarea>
+          <button onClick={handleSubmitFeedback} className="button">
+            Submit Feedback
+          </button>
         </div>
       )}
     </div>
